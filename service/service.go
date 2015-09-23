@@ -15,6 +15,7 @@ type CasServiceResponse struct {
 	Email       string
 	Authorities string
 	CN          string
+	Name        string
 }
 
 func New(server, service string) CasServiceConfig {
@@ -34,14 +35,15 @@ func (self CasServiceConfig) ValidateServiceTicket(ticket string) (*CasServiceRe
 }
 
 func (self CasServiceConfig) checkServiceTicketUrl() string {
-	return self.Server + "/serviceValidate"
+	return self.Server + "/proxyValidate"
 }
 
 func parseServiceResponse(content string) *CasServiceResponse {
 	response := CasServiceResponse{}
 	response.Status = strings.Contains(content, "authenticationSuccess")
 	response.User = manualExtractNode(content, "cas:user")
-	response.Email = manualExtractNode(content, "cas:email")
+	response.Email = manualExtractNode(content, "cas:mail")
+	response.Name = manualExtractNode(content, "cas:sn")
 	response.Authorities = manualExtractNode(content, "cas:authorities")
 	response.CN = manualExtractNode(content, "cas:cn")
 
