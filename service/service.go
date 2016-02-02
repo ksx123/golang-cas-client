@@ -16,6 +16,8 @@ type CasServiceResponse struct {
 	Authorities string
 	CN          string
 	Name        string
+	Company		string
+	Department	string
 }
 
 func New(server, service string) CasServiceConfig {
@@ -46,6 +48,8 @@ func parseServiceResponse(content string) *CasServiceResponse {
 	response.Name = manualExtractNode(content, "cas:sn")
 	response.Authorities = manualExtractNode(content, "cas:authorities")
 	response.CN = manualExtractNode(content, "cas:cn")
+	response.Company = manualExtractNode(content, "cas:company")
+	response.Department = manualExtractNode(content, "cas:department")
 
 	return &response
 }
